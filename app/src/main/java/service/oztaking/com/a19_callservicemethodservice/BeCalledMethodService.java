@@ -2,6 +2,7 @@ package service.oztaking.com.a19_callservicemethodservice;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -13,11 +14,12 @@ import android.widget.Toast;
  */
 
 public class BeCalledMethodService extends Service {
+
     String TAG = new String("ANDROID-LOG");
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new MyBinder();
     }
 
     @Override
@@ -36,9 +38,13 @@ public class BeCalledMethodService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
     }
-
     //1.被调用的服务中的方法
-    public void BeCalledMethod(){
-        Toast.makeText(getApplicationContext(),"我是被调用服务中的方法",Toast.LENGTH_SHORT).show();
+    public class MyBinder extends Binder implements IService{
+
+        @Override
+        public void BeCalledMethod() {
+            Toast.makeText(getApplicationContext(),"我是被调用服务中的方法",Toast.LENGTH_SHORT).show();
+        }
     }
+
 }
